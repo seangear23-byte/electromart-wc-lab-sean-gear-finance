@@ -39,9 +39,30 @@
     const after = period('after');
     const freed = { inventory: before.inventory - after.inventory, receivables: before.receivables - after.receivables, payables: after.payables - before.payables };
     freed.total = freed.inventory + freed.receivables + freed.payables;
-    return { days, before, after, freed };
+    const policy = Object.fromEntries(['bank_rate', 'supplier_discount', 'discount_days', 'net_days'].map(key => [key, number(assumptions.find(row => row.assumption === key)?.value, key)]));
+    if (policy.supplier_discount >= 1 || policy.net_days <= policy.discount_days) throw new Error('Invalid supplier terms.');
+    const bankLine = balance('liability_or_equity', 'notes_payable', 'before');
+    return { days, before, after, freed, policy, bankLine };
   }
-  const api = { parseCSV, calculate };
+  function scenario(model, inputs) {
+    const dio = number(inputs.dio, 'DIO');
+    const dso = number(inputs.dso, 'DSO');
+    const dpo = number(inputs.dpo, 'DPO');
+    const inventory = dio * model.before.cogs / model.days;
+    const receivables = dso * model.before.revenue / model.days;
+    const payables = dpo * model.before.cogs / model.days;
+    const freed = { inventory: model.before.inventory - inventory, receivables: model.before.receivables - receivables, payables: payables - model.before.payables };
+    freed.total = freed.inventory + freed.receivables + freed.payables;
+    const debtPaydown = Math.min(freed.total, model.bankLine);
+    const takesDiscount = dpo <= model.policy.discount_days;
+    return { dio, dso, dpo, ccc: dio + dso - dpo, inventory, receivables, payables, freed,
+      debtPaydown, bankRemaining: model.bankLine - debtPaydown,
+      excessCash: Math.max(0, freed.total - model.bankLine),
+      interestSaved: debtPaydown * model.policy.bank_rate,
+      pastDue: Math.max(0, dpo - model.policy.net_days), takesDiscount,
+      discountCost: takesDiscount ? null : model.policy.supplier_discount / (1 - model.policy.supplier_discount) * model.days / (dpo - model.policy.discount_days) };
+  }
+  const api = { parseCSV, calculate, scenario };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.CCC = api;
 })(globalThis);

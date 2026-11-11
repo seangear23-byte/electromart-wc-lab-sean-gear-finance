@@ -17,9 +17,19 @@
       <section class="hero" aria-labelledby="cycle-title"><div><p class="eyebrow">CASH CONVERSION CYCLE</p><h2 id="cycle-title">Less time tied up in operations</h2><p>Inventory days + collection days − payment days</p></div><div id="cycle-summary"></div></section>
       <section class="panel" aria-labelledby="days-title"><h2 id="days-title">Before &amp; After</h2><p>Days measure how long cash stays in each stage.</p><table><caption class="sr-only">Working capital metrics in days</caption><thead><tr><th scope="col">Metric</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody id="metrics"></tbody></table></section>
       <section aria-labelledby="cash-title"><div class="section-heading"><h2 id="cash-title">Cash freed by each lever</h2><p>Lower operating assets and higher supplier financing release cash.</p></div><div id="cash-cards" class="cards"></div><p class="total">Total cash freed <strong id="cash-total"></strong></p></section>
+      <section class="panel" aria-labelledby="levers-title">
+        <h2 id="levers-title">Explore the working capital levers</h2>
+        <p>Move a slider or enter exact days. Revenue and COGS stay at Before values; cash freed compares with Before.</p>
+        <div class="presets"><button type="button" id="set-before">Set to Before</button><button type="button" id="set-after">Set to After</button></div>
+        <div id="sliders"></div>
+        <div id="scenario-results" aria-live="polite" aria-atomic="true"></div>
+        <p id="policy-note"></p>
+        <p>Interest savings assume every freed dollar pays down the bank line, capped at its Before balance. Negative cash freed requires extra borrowing and produces a negative saving. The case itself keeps some cash instead.</p>
+        <p>Skipping the supplier discount is an annualized financing cost, not a dollar expense or a saving from paying late. Paying beyond the due date can put supplier relationships at risk.</p>
+      </section>
       <section class="panel" aria-labelledby="math-title"><h2 id="math-title">How the math works</h2><p id="conventions"></p><dl><dt>DIO · Days inventory outstanding</dt><dd>Inventory ÷ annual cost of goods sold (COGS) × days in year</dd><dt>DSO · Days sales outstanding</dt><dd>Accounts receivable ÷ annual revenue × days in year</dd><dt>DPO · Days payable outstanding</dt><dd>Accounts payable ÷ annual COGS × days in year</dd><dt>Cash conversion cycle (CCC)</dt><dd>DIO + DSO − DPO</dd></dl><p>Cash freed = Before − After for inventory and receivables; After − Before for payables. Positive amounts release cash; negative amounts use cash.</p><p>These are typical year-round balances. All sales are on credit and purchases equal COGS.</p></section>
     </div>
-    <footer>Source: <a href="data/electromart.csv">electromart.csv</a> &amp; <a href="data/assumptions.csv">assumptions.csv</a> · Part B</footer>
+    <footer>Source: <a href="data/electromart.csv">electromart.csv</a> &amp; <a href="data/assumptions.csv">assumptions.csv</a> · Part C</footer>
   </main>
 </body>
 </html>
