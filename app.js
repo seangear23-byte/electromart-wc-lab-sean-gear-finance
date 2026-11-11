@@ -27,6 +27,26 @@ async function start() {
 }
 start();
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' })
+    .then(() => navigator.serviceWorker.ready)
+    .then(() => {
+      const updateStatus = () => {
+        document.querySelector('#offline-status').textContent = navigator.onLine
+          ? 'Ready for offline use on this device.'
+          : 'Offline: using saved files and data.';
+      };
+      updateStatus();
+      window.addEventListener('online', updateStatus);
+      window.addEventListener('offline', updateStatus);
+    })
+    .catch(() => {
+      document.querySelector('#offline-status').textContent = 'Offline setup was unsuccessful. Reconnect and reload to try again.';
+    });
+} else {
+  document.querySelector('#offline-status').textContent = 'Offline support is unavailable in this browser. Use the published HTTPS site in a supported browser.';
+}
+
 function setupLevers(model) {
   const percent = new Intl.NumberFormat('en-US', { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const controls = [['dio', 'DIO · Days Inventory Outstanding'], ['dso', 'DSO · Days Sales Outstanding'], ['dpo', 'DPO · Days Payable Outstanding']];
