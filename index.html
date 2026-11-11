@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare ElectroMart’s working capital and cash conversion cycle before and after its policy changes.">
+  <title>ElectroMart · Working Capital</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="ccc.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header><p class="eyebrow">FIN 4150 / WORKING CAPITAL LAB</p><h1>ElectroMart</h1><p class="intro">Follow the cash through inventory, customer collections and supplier payments.</p></header>
+    <p id="status" role="status">Loading financial statements…</p>
+    <div id="results" hidden>
+      <section class="hero" aria-labelledby="cycle-title"><div><p class="eyebrow">CASH CONVERSION CYCLE</p><h2 id="cycle-title">Less time tied up in operations</h2><p>Inventory days + collection days − payment days</p></div><div id="cycle-summary"></div></section>
+      <section class="panel" aria-labelledby="days-title"><h2 id="days-title">Before &amp; After</h2><p>Days measure how long cash stays in each stage.</p><table><caption class="sr-only">Working capital metrics in days</caption><thead><tr><th scope="col">Metric</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody id="metrics"></tbody></table></section>
+      <section aria-labelledby="cash-title"><div class="section-heading"><h2 id="cash-title">Cash freed by each lever</h2><p>Lower operating assets and higher supplier financing release cash.</p></div><div id="cash-cards" class="cards"></div><p class="total">Total cash freed <strong id="cash-total"></strong></p></section>
+      <section class="panel" aria-labelledby="math-title"><h2 id="math-title">How the math works</h2><p id="conventions"></p><dl><dt>DIO · Days inventory outstanding</dt><dd>Inventory ÷ annual cost of goods sold (COGS) × days in year</dd><dt>DSO · Days sales outstanding</dt><dd>Accounts receivable ÷ annual revenue × days in year</dd><dt>DPO · Days payable outstanding</dt><dd>Accounts payable ÷ annual COGS × days in year</dd><dt>Cash conversion cycle (CCC)</dt><dd>DIO + DSO − DPO</dd></dl><p>Cash freed = Before − After for inventory and receivables; After − Before for payables. Positive amounts release cash; negative amounts use cash.</p><p>These are typical year-round balances. All sales are on credit and purchases equal COGS.</p></section>
+    </div>
+    <footer>Source: <a href="data/electromart.csv">electromart.csv</a> &amp; <a href="data/assumptions.csv">assumptions.csv</a> · Part B</footer>
+  </main>
+</body>
+</html>
